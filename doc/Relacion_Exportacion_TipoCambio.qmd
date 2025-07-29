@@ -1,0 +1,100 @@
+---
+title: "Exportaciones y Tipo de Cambio"
+subtitle: 'Análisis Económico'
+author: "Alexander Chi Fernández"
+date: today
+format:
+  html:
+    mathjax: true 
+    mainfont: 'Gill Sans'
+    theme: lux         
+    toc: true
+    toc-title: 'Index'
+    toc-depth: 2
+    toc-location: left
+    code-fold: false
+    code-tools: false
+    number-sections: true
+    smooth-scroll: true
+    results: show
+    embed-resources: true
+    warning: false
+    
+execute:
+  echo: false
+jupyter: python3
+---
+
+# Introducción
+
+En este articulo se analiza la relacion de las exportaciones con el tipo de cambio.
+
+---
+
+# Dataset
+
+Los datos para este analisis se obtivieron directamente de Banco de México. En la siguiente tabala de puede obervsar a detalle. Incluso si el lector quisiera realizar el analisis por su propia cuenta, puede descargar los datos en formato csv.
+```{python}
+# Importación de librerias estandares
+import pandas as pd
+
+# Importación de librerías personales
+import sys
+sys.path.append('C:/TODO/Librerias')
+import analisis
+from BANXICO import descarga_bmx_serie
+
+#Definición de parámetros
+exportaciones = 'SE36593'
+tipo_cambio = 'SF17908'
+fehca_inicio = '2005-01-01'
+fecha_fin = '2029-03-24'
+token = '0bbedfd8f365e22a31af14730a465c2e6be8d9014059e7eed525f50ef7e4e773'
+
+#Obtención de datos
+
+# Exportaciones
+df1 = descarga_bmx_serie(exportaciones, fehca_inicio, fecha_fin, token=token)
+df1 = df1.rename(columns = {'dato' : 'Exportaciones'})
+
+# Tipo de cambio 
+df2 = descarga_bmx_serie(tipo_cambio, fehca_inicio, fecha_fin, token=token)
+df2 = df2.rename(columns = {'dato' : 'Tipo de Cambio'})
+
+# Concatenar los 2 dfs
+df = pd.concat([df1, df2], axis=1)
+
+analisis.Visualizar_Tabla_Dinamica(df, titulo='Exportaciones y Tipo de Cambio de México (2005-2025) ')
+
+df.to_csv('tabla1.csv', index = True)
+```
+
+<a href="datos.csv" download="datos.csv">Descargar tabla CSV</a>
+
+---
+
+# Visualización
+
+Empezando el analisis con la visualización de las exportaciones del país.
+
+```{python}
+# Exportaciones
+ticker = ['Exportaciones']
+analisis.Visualizar_Series_Dinamica(df1, ticker, nombre_de_eje_y='Pesos Mexicanos', titulo='Exportaciones')
+```
+
+Continuando con la visualización del tipo de cambio: Peso-Dolar.
+
+```{python}
+# Exportaciones
+ticker = ['Tipo de Cambio']
+analisis.Visualizar_Series_Dinamica(df2, ticker, nombre_de_eje_y='Pesos', titulo='Tipo de Cambio: Peso-Dolar')
+```
+
+Por ultimo grafica de dispersion de ambas variables para ver sus relaciones.
+
+```{python}
+# Exportaciones
+ticker = ['Tipo de Cambio']
+analisis.Visualizar_Dispersion_Dinamica(df, 'Tipo de Cambio', 'Exportaciones', Regresion=None)
+```
