@@ -1,0 +1,39 @@
+---
+title: "Titulo"
+subtitle: 'Subtitulo'
+author: "Alexander Chi Fernández"
+date: today
+format:
+  html:
+    mathjax: true 
+    mainfont: 'Gill Sans'
+    theme: lux         
+    toc: true
+    toc-title: 'Index'
+    toc-depth: 2
+    toc-location: left
+    code-fold: false
+    code-tools: false
+    number-sections: true
+    smooth-scroll: true
+    results: show
+    embed-resources: true
+    warning: false
+    
+execute:
+  echo: false
+jupyter: python3
+---
+
+# Introducción
+
+Aquí va la introducción o resumen del artículo
+
+---
+
+```{python}
+# Importación de librerías
+import sys
+sys.path.append('C:/TODO/Librerias')
+import analisis
+```
